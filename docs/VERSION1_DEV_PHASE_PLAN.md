@@ -33,7 +33,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 
 ### Phase B: Auth and Profile Stabilization
 
-- B1: Signup/login validation hardening
+- B1: Signup/login validation hardening (completed)
 - B2: Session lifecycle improvements (expiry and cleanup)
 - B3: Profile update validation and sanitization
 - B4: Auth regression test checklist
@@ -121,21 +121,21 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-B1 - Signup/Login Validation Hardening
+B2 - Session Lifecycle Improvements
 
 ### Branch
 
-`v1/task-b1-auth-validation-hardening`
+`v1/task-b2-session-lifecycle`
 
 ### Scope
 
-- Strengthen input normalization and validation rules for auth.
-- Ensure consistent payload quality before DB operations.
-- Keep all auth validation failures mapped to unified error response format.
+- Add session expiry cleanup workflow for stale sessions.
+- Ensure new logins can optionally remove old sessions per user.
+- Improve reliability of session invalidation behavior.
 
 ### Definition of Done
 
-- Signup and login reject malformed and weak input consistently.
-- Validation errors return stable `VALIDATION_ERROR` output.
-- Existing successful auth flows remain unchanged.
+- Session cleanup can run safely and repeatedly.
+- Expired sessions are removed from storage.
+- Auth success and logout behavior remain stable.
 - Typecheck and build pass.
