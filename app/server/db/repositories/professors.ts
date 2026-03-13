@@ -240,7 +240,8 @@ export const listProfessorTagNames = async (db: Db, professorId: string) => {
     .select({ name: tags.name })
     .from(professorTags)
     .innerJoin(tags, eq(tags.id, professorTags.tagId))
-    .where(eq(professorTags.professorId, professorId));
+    .where(eq(professorTags.professorId, professorId))
+    .orderBy(asc(tags.name));
 
   return rows.map((row) => row.name);
 };

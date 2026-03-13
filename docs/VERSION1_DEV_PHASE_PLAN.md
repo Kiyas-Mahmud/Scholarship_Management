@@ -41,7 +41,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 ### Phase C: Professor CRM V1
 
 - C1: Professor list filtering and sorting (completed)
-- C2: Professor detail data consistency checks
+- C2: Professor detail data consistency checks (completed)
 - C3: Tag assignment reliability improvements
 - C4: Status transition rules and tests
 
@@ -121,21 +121,21 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-C2 - Professor Detail Data Consistency Checks
+C3 - Tag Assignment Reliability Improvements
 
 ### Branch
 
-`v1/task-c2-professor-detail-consistency`
+`v1/task-c3-tag-reliability`
 
 ### Scope
 
-- Verify single-professor endpoint returns consistent shape.
-- Ensure not-found and ownership checks are stable.
-- Validate related fields (tags, status, timestamps) are coherent.
+- Ensure tag attach/detach operations are idempotent.
+- Normalize and validate tag names consistently.
+- Prevent duplicate/empty tag assignments reliably.
 
 ### Definition of Done
 
-- Detail endpoint returns expected data for valid professor ids.
-- Invalid/missing ids return consistent API errors.
-- Data format stays aligned with list endpoint records.
+- Attach/detach endpoints behave correctly under repeated requests.
+- Tag lists remain unique and deterministically ordered.
+- Typecheck and build pass.
 - Typecheck and build pass.
