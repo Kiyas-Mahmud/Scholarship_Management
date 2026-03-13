@@ -171,8 +171,14 @@ export const attachOrDetachTags = async (
   add: string[],
   remove: string[],
 ) => {
-  if (add.length > 0) {
-    for (const tagName of add) {
+  const normalize = (values: string[]) =>
+    [...new Set(values.map((item) => item.trim().toLowerCase()).filter(Boolean))];
+
+  const removeSet = new Set(normalize(remove));
+  const addNames = normalize(add).filter((name) => !removeSet.has(name));
+
+  if (addNames.length > 0) {
+    for (const tagName of addNames) {
       const normalized = tagName.trim().toLowerCase();
       if (!normalized) continue;
 
@@ -210,10 +216,8 @@ export const attachOrDetachTags = async (
     }
   }
 
-  if (remove.length > 0) {
-    const names = remove
-      .map((item) => item.trim().toLowerCase())
-      .filter(Boolean);
+  if (removeSet.size > 0) {
+    const names = [...removeSet];
 
     if (names.length > 0) {
       const rows = await db

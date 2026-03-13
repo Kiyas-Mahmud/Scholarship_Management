@@ -42,7 +42,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 
 - C1: Professor list filtering and sorting (completed)
 - C2: Professor detail data consistency checks (completed)
-- C3: Tag assignment reliability improvements
+- C3: Tag assignment reliability improvements (completed)
 - C4: Status transition rules and tests
 
 ### Phase D: Template and Outreach Core
@@ -121,21 +121,22 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-C3 - Tag Assignment Reliability Improvements
+C4 - Status Transition Rules and Tests
 
 ### Branch
 
-`v1/task-c3-tag-reliability`
+`v1/task-c4-status-rules-tests`
 
 ### Scope
 
-- Ensure tag attach/detach operations are idempotent.
-- Normalize and validate tag names consistently.
-- Prevent duplicate/empty tag assignments reliably.
+- Define and enforce valid status transitions.
+- Add tests for allowed and blocked transitions.
+- Ensure transition timestamps and side effects are consistent.
 
 ### Definition of Done
 
-- Attach/detach endpoints behave correctly under repeated requests.
-- Tag lists remain unique and deterministically ordered.
+- Invalid transitions return consistent API errors.
+- Allowed transitions persist correctly with expected metadata.
+- Typecheck and build pass.
 - Typecheck and build pass.
 - Typecheck and build pass.

@@ -5,14 +5,24 @@ import {
   listProfessorTagNames,
 } from "~/server/db/repositories/professors";
 import { requireUser } from "~/server/utils/requireUser";
-import { fail, ok } from "~/server/utils/response";
+import { fail, ok, withErrorHandling } from "~/server/utils/response";
+
+const tagNameSchema = z
+  .string()
+  .transform((value) => value.trim())
+  .refine((value) => value.length > 0, {
+    message: "Tag name is required.",
+  })
+  .refine((value) => value.length <= 64, {
+    message: "Tag name must be 64 characters or less.",
+  });
 
 const tagsSchema = z.object({
-  add: z.array(z.string().min(1)).default([]),
-  remove: z.array(z.string().min(1)).default([]),
-});
+  add: z.array(tagNameSchema).default([]),
+  remove: z.array(tagNameSchema).default([]),
+}).strict();
 
-export default defineEventHandler(async (event) => {
+export default withErrorHandling(async (event) => {
   const { db, user } = await requireUser(event);
   const professorId = getRouterParam(event, "id");
 
@@ -33,7 +43,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const body = await readBody(event);
-  const input = tagsSchema.parse(body);
+  const input = tagsSchema.parse(body ?? {});
 
   await attachOrDetachTags(db, user.id, professorId, input.add, input.remove);
   const tagNames = await listProfessorTagNames(db, professorId);
