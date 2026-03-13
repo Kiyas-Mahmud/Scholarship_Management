@@ -29,7 +29,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 - A1: Finalize D1 and migration workflow
 - A2: Add env validation and configuration guardrails (completed)
 - A3: Add error response normalization for API routes (completed)
-- A4: Add basic API smoke test script
+- A4: Add basic API smoke test script (completed)
 
 ### Phase B: Auth and Profile Stabilization
 
@@ -121,21 +121,21 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-A4 - Add Basic API Smoke Test Script
+B1 - Signup/Login Validation Hardening
 
 ### Branch
 
-`v1/task-a4-api-smoke-tests`
+`v1/task-b1-auth-validation-hardening`
 
 ### Scope
 
-- Add a repeatable smoke test script for key API flows.
-- Cover signup, login, profile, and authentication checks.
-- Provide pass/fail output suitable for CI or manual checks.
+- Strengthen input normalization and validation rules for auth.
+- Ensure consistent payload quality before DB operations.
+- Keep all auth validation failures mapped to unified error response format.
 
 ### Definition of Done
 
-- Smoke script runs with one command.
-- Script validates happy path and expected auth failures.
-- Script can be reused before every PR merge.
+- Signup and login reject malformed and weak input consistently.
+- Validation errors return stable `VALIDATION_ERROR` output.
+- Existing successful auth flows remain unchanged.
 - Typecheck and build pass.

@@ -11,6 +11,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "nuxt typecheck",
+    "test:smoke:api": "node scripts/api-smoke-test.mjs",
     "db:generate": "drizzle-kit generate",
     "db:migrate:local": "wrangler d1 migrations apply scholarship_outreach_dev --local",
     "db:migrate:remote": "wrangler d1 migrations apply scholarship_outreach_dev --remote"

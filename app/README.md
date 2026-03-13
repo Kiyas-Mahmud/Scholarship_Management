@@ -103,3 +103,25 @@ npm run db:migrate:remote
 
 For Pages deployment, also add the DB binding in your Pages project settings:
 Settings > Bindings > Add binding > D1 database > Variable name DB.
+
+## API Smoke Test
+
+Run a quick auth/profile API flow test against a running local server.
+
+1. Start the app in one terminal:
+
+```bash
+npm run dev
+```
+
+2. Run smoke test in another terminal:
+
+```bash
+npm run test:smoke:api
+```
+
+Optional target override:
+
+```bash
+API_BASE_URL=http://127.0.0.1:3000 npm run test:smoke:api
+```
