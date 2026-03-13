@@ -73,3 +73,33 @@ bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## D1 Database Setup
+
+This project expects a Cloudflare D1 binding named DB.
+
+1. Create a D1 database in Cloudflare dashboard and copy its database ID.
+2. Update the DB entry in wrangler.toml:
+   - binding = "DB"
+   - database_name = "scholarship_outreach_dev" (or your chosen name)
+   - database_id = "<your real database id>"
+3. Generate migrations after schema changes:
+
+```bash
+npm run db:generate
+```
+
+4. Apply migrations locally:
+
+```bash
+npm run db:migrate:local
+```
+
+5. Apply migrations to Cloudflare D1:
+
+```bash
+npm run db:migrate:remote
+```
+
+For Pages deployment, also add the DB binding in your Pages project settings:
+Settings > Bindings > Add binding > D1 database > Variable name DB.
