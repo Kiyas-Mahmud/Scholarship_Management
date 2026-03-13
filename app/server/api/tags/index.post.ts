@@ -1,0 +1,36 @@
+import { and, eq } from "drizzle-orm";
+import { nanoid } from "nanoid";
+import { z } from "zod";
+import { tags } from "~/server/db/schema/professors";
+import { requireUser } from "~/server/utils/requireUser";
+import { ok } from "~/server/utils/response";
+
+const tagSchema = z.object({
+  name: z.string().min(1).max(64),
+});
+
+export default defineEventHandler(async (event) => {
+  const { db, user } = await requireUser(event);
+  const body = await readBody(event);
+  const input = tagSchema.parse(body);
+  const normalized = input.name.trim().toLowerCase();
+
+  const existing = await db
+    .select()
+    .from(tags)
+    .where(and(eq(tags.userId, user.id), eq(tags.name, normalized)))
+    .limit(1);
+
+  if (existing[0]) {
+    return ok(existing[0]);
+  }
+
+  const created = {
+    id: nanoid(),
+    userId: user.id,
+    name: normalized,
+  };
+
+  await db.insert(tags).values(created);
+  return ok(created);
+});

@@ -1,0 +1,36 @@
+{
+  "name": "app",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "nuxt typecheck",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply scholarship_outreach_dev --local"
+  },
+  "dependencies": {
+    "@nuxtjs/tailwindcss": "^6.14.0",
+    "bcryptjs": "^2.4.3",
+    "drizzle-orm": "^0.45.1",
+    "nanoid": "^5.1.6",
+    "nuxt": "^3.17.7",
+    "vue": "^3.5.30",
+    "vue-router": "^4.5.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "drizzle-kit": "^0.31.9",
+    "eslint": "^10.0.3",
+    "prettier": "^3.8.1",
+    "typescript-eslint": "^8.57.0",
+    "vue-tsc": "^3.2.5",
+    "wrangler": "^4.72.0"
+  }
+}
