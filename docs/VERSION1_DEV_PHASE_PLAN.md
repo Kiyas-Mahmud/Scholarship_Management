@@ -36,7 +36,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 - B1: Signup/login validation hardening (completed)
 - B2: Session lifecycle improvements (expiry and cleanup) (completed)
 - B3: Profile update validation and sanitization (completed)
-- B4: Auth regression test checklist
+- B4: Auth regression test checklist (completed)
 
 ### Phase C: Professor CRM V1
 
@@ -121,21 +121,21 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-B4 - Auth Regression Test Checklist
+C1 - Professor List Filtering and Sorting
 
 ### Branch
 
-`v1/task-b4-auth-regression-checklist`
+`v1/task-c1-professor-list-filter-sort`
 
 ### Scope
 
-- Create a repeatable auth regression checklist and execution script.
-- Cover signup, login, me, profile update, logout, and invalid-session scenarios.
-- Make it easy to run before each PR merge.
+- Verify list endpoint filtering by status, country, and query.
+- Ensure sorting behavior is deterministic and documented.
+- Validate pagination defaults and limits.
 
 ### Definition of Done
 
-- Checklist covers all core auth and profile flows.
-- Test run output clearly marks pass/fail per step.
-- Process is documented in repository docs.
+- List endpoint returns expected filtered/sorted records.
+- Invalid query parameters are handled consistently.
+- Typecheck and build pass.
 - Typecheck and build pass.
