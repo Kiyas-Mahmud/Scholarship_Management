@@ -34,7 +34,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 ### Phase B: Auth and Profile Stabilization
 
 - B1: Signup/login validation hardening (completed)
-- B2: Session lifecycle improvements (expiry and cleanup)
+- B2: Session lifecycle improvements (expiry and cleanup) (completed)
 - B3: Profile update validation and sanitization
 - B4: Auth regression test checklist
 
@@ -121,21 +121,21 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-B2 - Session Lifecycle Improvements
+B3 - Profile Update Validation and Sanitization
 
 ### Branch
 
-`v1/task-b2-session-lifecycle`
+`v1/task-b3-profile-sanitization`
 
 ### Scope
 
-- Add session expiry cleanup workflow for stale sessions.
-- Ensure new logins can optionally remove old sessions per user.
-- Improve reliability of session invalidation behavior.
+- Add input sanitization for profile update fields.
+- Normalize nullable and optional profile values consistently.
+- Enforce stricter payload rules for profile data integrity.
 
 ### Definition of Done
 
-- Session cleanup can run safely and repeatedly.
-- Expired sessions are removed from storage.
-- Auth success and logout behavior remain stable.
+- Profile update rejects malformed payloads consistently.
+- Stored profile text fields are normalized and bounded.
+- Response shape remains stable for success and failure.
 - Typecheck and build pass.

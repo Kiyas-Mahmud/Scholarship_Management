@@ -1,6 +1,10 @@
 import type { H3Event } from "h3";
 import { getDb } from "~/server/db/connection";
-import { findUserByValidSession } from "~/server/db/repositories/auth";
+import {
+  deleteExpiredSessions,
+  deleteSession,
+  findUserByValidSession,
+} from "~/server/db/repositories/auth";
 import { getSessionToken } from "~/server/utils/auth";
 import { fail } from "~/server/utils/response";
 
@@ -25,10 +29,14 @@ export const requireUser = async (event: H3Event) => {
 
   const dbConn = db as NonNullable<typeof db>;
 
+  await deleteExpiredSessions(dbConn);
+
   const sessionToken = token as string;
   const user = await findUserByValidSession(dbConn, sessionToken);
 
   if (!user) {
+    await deleteSession(dbConn, sessionToken);
+
     fail(401, {
       code: "SESSION_INVALID",
       message: "Session is invalid or expired.",

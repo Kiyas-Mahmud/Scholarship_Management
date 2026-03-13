@@ -1,6 +1,8 @@
 import { getDb } from "~/server/db/connection";
 import {
   createSession,
+  deleteExpiredSessions,
+  deleteSessionsByUserId,
   findUserByEmail,
   getProfileByUserId,
 } from "~/server/db/repositories/auth";
@@ -36,6 +38,9 @@ export default withErrorHandling(async (event) => {
       message: "Email or password is incorrect.",
     });
   }
+
+  await deleteExpiredSessions(db);
+  await deleteSessionsByUserId(db, user.id);
 
   const token = createSessionToken();
   await createSession(db, token, user.id, getSessionExpiryIso());
