@@ -27,7 +27,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 ### Phase A: Foundation Hardening
 
 - A1: Finalize D1 and migration workflow
-- A2: Add env validation and configuration guardrails
+- A2: Add env validation and configuration guardrails (completed)
 - A3: Add error response normalization for API routes
 - A4: Add basic API smoke test script
 
@@ -116,3 +116,25 @@ A1 - Finalize D1 and Migration Workflow
 4. Commit with clear message.
 5. Push and open PR to `version1`.
 6. Repeat for next task.
+
+## Next Task Plan
+
+### Task ID
+
+A3 - Add Error Response Normalization
+
+### Branch
+
+`v1/task-a3-response-normalization`
+
+### Scope
+
+- Standardize API error payload shape.
+- Ensure validation, auth, and DB errors return consistent JSON structure.
+- Reduce route-level repetitive error formatting.
+
+### Definition of Done
+
+- All auth and profile routes use shared error response helper.
+- Known error classes map to stable `code` and `message` values.
+- Typecheck and build pass.
