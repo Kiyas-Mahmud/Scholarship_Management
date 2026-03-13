@@ -1,5 +1,15 @@
 import type { InferInsertModel } from "drizzle-orm";
-import { and, asc, desc, eq, inArray, isNull, like, or, sql } from "drizzle-orm";
+import {
+  and,
+  asc,
+  desc,
+  eq,
+  inArray,
+  isNull,
+  like,
+  or,
+  sql,
+} from "drizzle-orm";
 import { professorTags, professors, tags } from "~/server/db/schema/professors";
 
 type Db = NonNullable<
@@ -84,14 +94,22 @@ export const listProfessors = async (
 
   const orderBy =
     query.sort === "deadline"
-      ? asc(professors.deadlineAt)
-      : desc(professors.lastContactAt);
+      ? [
+          asc(professors.deadlineAt),
+          desc(professors.updatedAt),
+          asc(professors.id),
+        ]
+      : [
+          desc(professors.lastContactAt),
+          desc(professors.updatedAt),
+          asc(professors.id),
+        ];
 
   const rows = await db
     .select()
     .from(professors)
     .where(whereClause)
-    .orderBy(orderBy)
+    .orderBy(...orderBy)
     .limit(query.limit)
     .offset((query.page - 1) * query.limit);
 

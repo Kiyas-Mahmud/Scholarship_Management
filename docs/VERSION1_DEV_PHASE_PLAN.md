@@ -40,7 +40,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 
 ### Phase C: Professor CRM V1
 
-- C1: Professor list filtering and sorting
+- C1: Professor list filtering and sorting (completed)
 - C2: Professor detail data consistency checks
 - C3: Tag assignment reliability improvements
 - C4: Status transition rules and tests
@@ -121,21 +121,21 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-C1 - Professor List Filtering and Sorting
+C2 - Professor Detail Data Consistency Checks
 
 ### Branch
 
-`v1/task-c1-professor-list-filter-sort`
+`v1/task-c2-professor-detail-consistency`
 
 ### Scope
 
-- Verify list endpoint filtering by status, country, and query.
-- Ensure sorting behavior is deterministic and documented.
-- Validate pagination defaults and limits.
+- Verify single-professor endpoint returns consistent shape.
+- Ensure not-found and ownership checks are stable.
+- Validate related fields (tags, status, timestamps) are coherent.
 
 ### Definition of Done
 
-- List endpoint returns expected filtered/sorted records.
-- Invalid query parameters are handled consistently.
-- Typecheck and build pass.
+- Detail endpoint returns expected data for valid professor ids.
+- Invalid/missing ids return consistent API errors.
+- Data format stays aligned with list endpoint records.
 - Typecheck and build pass.
