@@ -35,7 +35,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 
 - B1: Signup/login validation hardening (completed)
 - B2: Session lifecycle improvements (expiry and cleanup) (completed)
-- B3: Profile update validation and sanitization
+- B3: Profile update validation and sanitization (completed)
 - B4: Auth regression test checklist
 
 ### Phase C: Professor CRM V1
@@ -121,21 +121,21 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-B3 - Profile Update Validation and Sanitization
+B4 - Auth Regression Test Checklist
 
 ### Branch
 
-`v1/task-b3-profile-sanitization`
+`v1/task-b4-auth-regression-checklist`
 
 ### Scope
 
-- Add input sanitization for profile update fields.
-- Normalize nullable and optional profile values consistently.
-- Enforce stricter payload rules for profile data integrity.
+- Create a repeatable auth regression checklist and execution script.
+- Cover signup, login, me, profile update, logout, and invalid-session scenarios.
+- Make it easy to run before each PR merge.
 
 ### Definition of Done
 
-- Profile update rejects malformed payloads consistently.
-- Stored profile text fields are normalized and bounded.
-- Response shape remains stable for success and failure.
+- Checklist covers all core auth and profile flows.
+- Test run output clearly marks pass/fail per step.
+- Process is documented in repository docs.
 - Typecheck and build pass.
