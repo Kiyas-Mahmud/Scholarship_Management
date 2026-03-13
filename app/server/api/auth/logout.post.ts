@@ -1,9 +1,9 @@
 import { getDb } from "~/server/db/connection";
 import { deleteSession } from "~/server/db/repositories/auth";
 import { clearSessionCookie, getSessionToken } from "~/server/utils/auth";
-import { ok } from "~/server/utils/response";
+import { ok, withErrorHandling } from "~/server/utils/response";
 
-export default defineEventHandler(async (event) => {
+export default withErrorHandling(async (event) => {
   const token = getSessionToken(event);
   const db = getDb(event);
 

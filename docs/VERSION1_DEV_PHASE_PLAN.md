@@ -28,7 +28,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 
 - A1: Finalize D1 and migration workflow
 - A2: Add env validation and configuration guardrails (completed)
-- A3: Add error response normalization for API routes
+- A3: Add error response normalization for API routes (completed)
 - A4: Add basic API smoke test script
 
 ### Phase B: Auth and Profile Stabilization
@@ -121,20 +121,21 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-A3 - Add Error Response Normalization
+A4 - Add Basic API Smoke Test Script
 
 ### Branch
 
-`v1/task-a3-response-normalization`
+`v1/task-a4-api-smoke-tests`
 
 ### Scope
 
-- Standardize API error payload shape.
-- Ensure validation, auth, and DB errors return consistent JSON structure.
-- Reduce route-level repetitive error formatting.
+- Add a repeatable smoke test script for key API flows.
+- Cover signup, login, profile, and authentication checks.
+- Provide pass/fail output suitable for CI or manual checks.
 
 ### Definition of Done
 
-- All auth and profile routes use shared error response helper.
-- Known error classes map to stable `code` and `message` values.
+- Smoke script runs with one command.
+- Script validates happy path and expected auth failures.
+- Script can be reused before every PR merge.
 - Typecheck and build pass.

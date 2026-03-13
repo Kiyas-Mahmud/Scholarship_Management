@@ -1,5 +1,9 @@
 import { getDb } from "~/server/db/connection";
-import { createSession, findUserByEmail, getProfileByUserId } from "~/server/db/repositories/auth";
+import {
+  createSession,
+  findUserByEmail,
+  getProfileByUserId,
+} from "~/server/db/repositories/auth";
 import {
   createSessionToken,
   getSessionExpiryIso,
@@ -7,9 +11,9 @@ import {
   setSessionCookie,
 } from "~/server/utils/auth";
 import { verifyPassword } from "~/server/utils/password";
-import { fail, ok } from "~/server/utils/response";
+import { fail, ok, withErrorHandling } from "~/server/utils/response";
 
-export default defineEventHandler(async (event) => {
+export default withErrorHandling(async (event) => {
   const input = await parseLoginBody(event);
   const db = getDb(event);
 

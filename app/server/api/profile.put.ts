@@ -4,7 +4,7 @@ import {
   updateProfileByUserId,
 } from "~/server/db/repositories/auth";
 import { requireUser } from "~/server/utils/requireUser";
-import { fail, ok } from "~/server/utils/response";
+import { fail, ok, withErrorHandling } from "~/server/utils/response";
 
 const profileSchema = z.object({
   fullName: z.string().min(2).max(100),
@@ -14,7 +14,7 @@ const profileSchema = z.object({
   signatureBlock: z.string().max(1000).nullable(),
 });
 
-export default defineEventHandler(async (event) => {
+export default withErrorHandling(async (event) => {
   const { db, user } = await requireUser(event);
   const existing = await getProfileByUserId(db, user.id);
 
