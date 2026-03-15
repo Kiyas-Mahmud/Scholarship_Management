@@ -47,7 +47,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 
 ### Phase D: Template and Outreach Core
 
-- D1: Template CRUD base implementation
+- D1: Template CRUD base implementation (completed)
 - D2: Variable interpolation engine
 - D3: Outreach log write path
 - D4: Mark-as-sent flow with reminder creation
@@ -121,22 +121,22 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-D1 - Template CRUD Base Implementation
+D2 - Variable Interpolation Engine
 
 ### Branch
 
-`v1/task-d1-template-crud`
+`v1/task-d2-variable-interpolation`
 
 ### Scope
 
-- Create template schema and repository foundation.
-- Add CRUD endpoints for templates.
-- Ensure ownership checks and validation are enforced.
+- Implement variable interpolation utility for template subject/body.
+- Define supported placeholder map for user/profile/professor context.
+- Add validation and safe fallback behavior for missing variables.
 
 ### Definition of Done
 
-- Template create/read/update/delete works for authenticated users.
-- Versioning foundation is ready for interpolation engine in D2.
+- Interpolation utility can render template text from context payload.
+- Unsupported or missing placeholders are handled predictably.
+- Helper is ready to plug into outreach send flow in D3/D4.
 - API responses follow shared success/error conventions.
-- Typecheck and build pass.
 - Typecheck and build pass.
