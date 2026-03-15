@@ -118,3 +118,4 @@ npm run db:migrate:remote
 - [ ] Deployment checklist completed and signed by operator.
 - [ ] Product owner confirms acceptance checks.
 - [ ] Release notes and rollout timestamp recorded.
+- [ ] `V1_ACCEPTANCE_CHECKLIST.md` completed and archived with release evidence.
