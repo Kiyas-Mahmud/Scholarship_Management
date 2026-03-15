@@ -64,7 +64,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 - F1: Plans and subscriptions read model (completed)
 - F2: Entitlement guard middleware (completed)
 - F3: Usage limit enforcement on core actions (completed)
-- F4: Billing UI placeholders
+- F4: Billing UI placeholders (completed)
 
 ### Phase G: Release Readiness
 
@@ -121,23 +121,23 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-F4 - Billing UI Placeholders
+G1 - Security and Rate-Limit Pass
 
 ### Branch
 
-`v1/task-f4-billing-ui-placeholders`
+`v1/task-g1-security-rate-limit`
 
 ### Scope
 
-- Add billing section in dashboard with plan/subscription placeholders.
-- Show active plan catalog in placeholder UI for upgrade flow.
-- Keep layout lightweight and consistent with existing dashboard style.
+- Add baseline rate limiting for sensitive auth and mutation routes.
+- Review API safety checks and improve failure codes/messages as needed.
+- Ensure security hardening does not break existing happy paths.
 
 ### Definition of Done
 
-- Billing placeholder UI renders with live billing API data.
-- Page communicates upcoming payment/upgrade flow clearly.
-- Existing dashboard functionality remains stable.
+- Core sensitive endpoints have practical request throttling.
+- Security-related failures are normalized and client-safe.
+- Regression checks pass for auth and core APIs.
 - Response shape follows shared success/error conventions.
 - API responses follow shared success/error conventions.
 - Typecheck and build pass.
