@@ -4,9 +4,11 @@ import {
   asc,
   desc,
   eq,
+  gte,
   inArray,
   isNull,
   like,
+  lte,
   or,
   sql,
 } from "drizzle-orm";
@@ -248,4 +250,51 @@ export const listProfessorTagNames = async (db: Db, professorId: string) => {
     .orderBy(asc(tags.name));
 
   return rows.map((row) => row.name);
+};
+
+export const listDeadlineWarnings = async (
+  db: Db,
+  userId: string,
+  query: {
+    dueBefore?: string;
+    warningDays: number;
+    page: number;
+    limit: number;
+  },
+) => {
+  const now = new Date();
+  const nowIso = now.toISOString();
+  const computedDueBefore = new Date(now.getTime());
+  computedDueBefore.setUTCDate(computedDueBefore.getUTCDate() + query.warningDays);
+
+  const dueBeforeIso = query.dueBefore ?? computedDueBefore.toISOString();
+
+  const whereClause = and(
+    eq(professors.userId, userId),
+    isNull(professors.deletedAt),
+    gte(professors.deadlineAt, nowIso),
+    lte(professors.deadlineAt, dueBeforeIso),
+  );
+
+  const countRows = await db
+    .select({ total: sql<number>`count(*)` })
+    .from(professors)
+    .where(whereClause);
+
+  const items = await db
+    .select()
+    .from(professors)
+    .where(whereClause)
+    .orderBy(asc(professors.deadlineAt), desc(professors.updatedAt), asc(professors.id))
+    .limit(query.limit)
+    .offset((query.page - 1) * query.limit);
+
+  return {
+    items,
+    page: query.page,
+    limit: query.limit,
+    total: countRows[0]?.total ?? 0,
+    dueBefore: dueBeforeIso,
+    warningWindowDays: query.warningDays,
+  };
 };
