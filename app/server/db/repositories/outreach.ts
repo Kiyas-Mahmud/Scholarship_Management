@@ -8,6 +8,7 @@ type Db = NonNullable<
 
 type NewOutreachLog = InferInsertModel<typeof outreachLogs>;
 type NewReminder = InferInsertModel<typeof reminders>;
+const nowIso = () => new Date().toISOString();
 
 const getCount = async (db: Db, whereClause: ReturnType<typeof and>) => {
   const rows = await db
@@ -83,6 +84,55 @@ export const createReminder = async (db: Db, input: NewReminder) => {
     .limit(1);
 
   return rows[0] ?? null;
+};
+
+export const getReminderById = async (
+  db: Db,
+  userId: string,
+  reminderId: string,
+) => {
+  const rows = await db
+    .select()
+    .from(reminders)
+    .where(and(eq(reminders.id, reminderId), eq(reminders.userId, userId)))
+    .limit(1);
+
+  return rows[0] ?? null;
+};
+
+export const markReminderDone = async (
+  db: Db,
+  userId: string,
+  reminderId: string,
+) => {
+  await db
+    .update(reminders)
+    .set({
+      status: "done",
+      snoozedUntil: null,
+      updatedAt: nowIso(),
+    })
+    .where(and(eq(reminders.id, reminderId), eq(reminders.userId, userId)));
+
+  return getReminderById(db, userId, reminderId);
+};
+
+export const snoozeReminder = async (
+  db: Db,
+  userId: string,
+  reminderId: string,
+  snoozedUntilIso: string,
+) => {
+  await db
+    .update(reminders)
+    .set({
+      status: "snoozed",
+      snoozedUntil: snoozedUntilIso,
+      updatedAt: nowIso(),
+    })
+    .where(and(eq(reminders.id, reminderId), eq(reminders.userId, userId)));
+
+  return getReminderById(db, userId, reminderId);
 };
 
 export const listReminders = async (
