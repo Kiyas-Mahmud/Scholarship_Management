@@ -5,8 +5,9 @@ import {
   createProfessor,
 } from "~/server/db/repositories/professors";
 import { getEntitlements, guardUsageLimit } from "~/server/utils/entitlements";
+import { enforceRateLimit } from "~/server/utils/rateLimit";
 import { requireUser } from "~/server/utils/requireUser";
-import { ok } from "~/server/utils/response";
+import { ok, withErrorHandling } from "~/server/utils/response";
 
 const professorSchema = z.object({
   name: z.string().min(2).max(200),
@@ -19,8 +20,16 @@ const professorSchema = z.object({
   notes: z.string().max(2000).nullable().optional(),
 });
 
-export default defineEventHandler(async (event) => {
+export default withErrorHandling(async (event) => {
   const { db, user } = await requireUser(event);
+
+  enforceRateLimit(event, {
+    bucket: "professors-create-user",
+    maxRequests: 40,
+    windowMs: 60_000,
+    key: user.id,
+  });
+
   const body = await readBody(event);
   const input = professorSchema.parse(body);
 

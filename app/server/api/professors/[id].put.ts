@@ -3,8 +3,9 @@ import {
   getProfessorById,
   updateProfessor,
 } from "~/server/db/repositories/professors";
+import { enforceRateLimit } from "~/server/utils/rateLimit";
 import { requireUser } from "~/server/utils/requireUser";
-import { fail, ok } from "~/server/utils/response";
+import { fail, ok, withErrorHandling } from "~/server/utils/response";
 
 const updateSchema = z.object({
   name: z.string().min(2).max(200).optional(),
@@ -17,8 +18,16 @@ const updateSchema = z.object({
   notes: z.string().max(2000).nullable().optional(),
 });
 
-export default defineEventHandler(async (event) => {
+export default withErrorHandling(async (event) => {
   const { db, user } = await requireUser(event);
+
+  enforceRateLimit(event, {
+    bucket: "professors-update-user",
+    maxRequests: 50,
+    windowMs: 60_000,
+    key: user.id,
+  });
+
   const professorId = getRouterParam(event, "id");
 
   if (!professorId) {
