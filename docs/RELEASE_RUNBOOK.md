@@ -50,6 +50,7 @@ Expected result:
 1. Reviewer confirms checks are complete.
 2. Approver signs off release.
 3. Capture sign-off in release notes.
+4. Complete `V1_ACCEPTANCE_CHECKLIST.md` and attach it to release evidence.
 
 ---
 
@@ -100,3 +101,9 @@ Use this template in release notes or tracker:
 - Reviewer:
 - Approver:
 - Outcome:
+
+---
+
+## 6) Final Acceptance Artifact
+
+Use `V1_ACCEPTANCE_CHECKLIST.md` as the final release gate before merging `version1` into `main`.

@@ -207,3 +207,4 @@ For release execution details, use:
 
 - `DEPLOYMENT_CHECKLIST.md` for pre-deploy/deploy/post-deploy verification
 - `RELEASE_RUNBOOK.md` for release roles, rollback, and hotfix procedures
+- `V1_ACCEPTANCE_CHECKLIST.md` for final sign-off and release evidence

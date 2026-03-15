@@ -71,7 +71,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 - G1: Security and rate-limit pass (completed)
 - G2: Deployment checklist and runbook (completed)
 - G3: Production env and binding verification (completed)
-- G4: V1 acceptance checklist and sign-off
+- G4: V1 acceptance checklist and sign-off (completed)
 
 ## First Task Plan (Start Now)
 
@@ -121,20 +121,19 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-G4 - V1 Acceptance Checklist and Sign-Off
+Release Gate - Merge Plan for version1 to main
 
 ### Branch
 
-`v1/task-g4-acceptance-signoff`
+`version1`
 
 ### Scope
 
-- Define final acceptance checks across auth, CRM, reminders, and billing skeleton.
-- Add explicit release sign-off template for operator and product approval.
-- Capture residual risks and post-release monitoring focus.
+- Execute final acceptance checklist in staging/production candidate.
+- Collect stakeholder sign-off records.
+- Merge `version1` into `main` after approval.
 
 ### Definition of Done
 
-- Acceptance checklist is complete and actionable.
-- Sign-off records include owner, reviewer, date, and release commit.
-- Residual risks and watch metrics are documented.
+- Signed acceptance artifact is attached to release evidence.
+- `version1` is merged into `main` with release note reference.
