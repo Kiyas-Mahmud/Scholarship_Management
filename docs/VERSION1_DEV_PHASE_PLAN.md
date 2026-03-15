@@ -57,7 +57,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 - E1: Due reminder query endpoint (completed)
 - E2: Dashboard today/tasks widget (completed)
 - E3: Reminder done/snooze actions (completed)
-- E4: Deadline warning query logic
+- E4: Deadline warning query logic (completed)
 
 ### Phase F: Billing Skeleton
 
@@ -121,23 +121,23 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-E4 - Deadline Warning Query Logic
+F1 - Plans and Subscriptions Read Model
 
 ### Branch
 
-`v1/task-e4-deadline-warning-query`
+`v1/task-f1-plans-subscriptions-read-model`
 
 ### Scope
 
-- Add deadline warning query endpoint for upcoming professor deadlines.
-- Support configurable warning window with sensible defaults.
-- Return sorted warning candidates for dashboard and reminder flows.
+- Add billing plans read endpoint with active plan filtering.
+- Add current subscription read endpoint for authenticated users.
+- Normalize subscription payload for entitlement middleware inputs.
 
 ### Definition of Done
 
-- Deadline warnings are queryable for authenticated users.
-- Endpoint returns upcoming deadlines in deterministic order.
-- Query filtering supports dueBefore and warning-window behavior.
+- Plans endpoint returns active plan catalog in stable order.
+- Subscription endpoint returns current user subscription state.
+- Data model is ready for F2 entitlement guard integration.
 - Response shape follows shared success/error conventions.
 - API responses follow shared success/error conventions.
 - Typecheck and build pass.
