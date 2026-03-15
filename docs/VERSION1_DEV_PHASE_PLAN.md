@@ -43,7 +43,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 - C1: Professor list filtering and sorting (completed)
 - C2: Professor detail data consistency checks (completed)
 - C3: Tag assignment reliability improvements (completed)
-- C4: Status transition rules and tests
+- C4: Status transition rules and tests (completed)
 
 ### Phase D: Template and Outreach Core
 
@@ -121,22 +121,22 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-C4 - Status Transition Rules and Tests
+D1 - Template CRUD Base Implementation
 
 ### Branch
 
-`v1/task-c4-status-rules-tests`
+`v1/task-d1-template-crud`
 
 ### Scope
 
-- Define and enforce valid status transitions.
-- Add tests for allowed and blocked transitions.
-- Ensure transition timestamps and side effects are consistent.
+- Create template schema and repository foundation.
+- Add CRUD endpoints for templates.
+- Ensure ownership checks and validation are enforced.
 
 ### Definition of Done
 
-- Invalid transitions return consistent API errors.
-- Allowed transitions persist correctly with expected metadata.
-- Typecheck and build pass.
+- Template create/read/update/delete works for authenticated users.
+- Versioning foundation is ready for interpolation engine in D2.
+- API responses follow shared success/error conventions.
 - Typecheck and build pass.
 - Typecheck and build pass.
