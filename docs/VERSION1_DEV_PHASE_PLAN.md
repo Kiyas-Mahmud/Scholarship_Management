@@ -70,7 +70,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 
 - G1: Security and rate-limit pass (completed)
 - G2: Deployment checklist and runbook (completed)
-- G3: Production env and binding verification
+- G3: Production env and binding verification (completed)
 - G4: V1 acceptance checklist and sign-off
 
 ## First Task Plan (Start Now)
@@ -121,20 +121,20 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-G3 - Production Env and Binding Verification
+G4 - V1 Acceptance Checklist and Sign-Off
 
 ### Branch
 
-`v1/task-g3-production-verification`
+`v1/task-g4-acceptance-signoff`
 
 ### Scope
 
-- Verify runtime environment requirements before deploy.
-- Add scriptable checks for critical Cloudflare bindings and app env vars.
-- Document pass/fail criteria for operators.
+- Define final acceptance checks across auth, CRM, reminders, and billing skeleton.
+- Add explicit release sign-off template for operator and product approval.
+- Capture residual risks and post-release monitoring focus.
 
 ### Definition of Done
 
-- A verification command exists for pre-release env/binding checks.
-- Required env vars and bindings are validated with clear errors.
-- Verification steps are documented for staging and production.
+- Acceptance checklist is complete and actionable.
+- Sign-off records include owner, reviewer, date, and release commit.
+- Residual risks and watch metrics are documented.

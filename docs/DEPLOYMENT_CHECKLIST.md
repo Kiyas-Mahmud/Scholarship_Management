@@ -31,6 +31,15 @@ Mark each item as completed during rollout.
 - [ ] Payment gateway secrets are present for target environment.
 - [ ] Email provider settings are present if reminders by email are enabled.
 
+Run from `app/` before deployment:
+
+```bash
+npm run verify:env:production
+```
+
+- [ ] `verify:env` check passes for target environment.
+- [ ] Any warning items are acknowledged by the release operator.
+
 ---
 
 ## 2) Build and Test Gate
@@ -39,6 +48,7 @@ Run from `app/`:
 
 ```bash
 npm ci
+npm run verify:env:production
 npm run typecheck
 npm run build
 npm run test:smoke:api
