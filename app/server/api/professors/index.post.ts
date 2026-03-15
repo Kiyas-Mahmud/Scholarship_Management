@@ -1,6 +1,10 @@
 import { nanoid } from "nanoid";
 import { z } from "zod";
-import { createProfessor } from "~/server/db/repositories/professors";
+import {
+  countActiveProfessorsByUser,
+  createProfessor,
+} from "~/server/db/repositories/professors";
+import { getEntitlements, guardUsageLimit } from "~/server/utils/entitlements";
 import { requireUser } from "~/server/utils/requireUser";
 import { ok } from "~/server/utils/response";
 
@@ -19,6 +23,15 @@ export default defineEventHandler(async (event) => {
   const { db, user } = await requireUser(event);
   const body = await readBody(event);
   const input = professorSchema.parse(body);
+
+  const entitlements = await getEntitlements(db, user.id);
+  const activeCount = await countActiveProfessorsByUser(db, user.id);
+
+  guardUsageLimit(activeCount, entitlements.limits.maxProfessors, {
+    resource: "professors",
+    code: "PROFESSOR_LIMIT_REACHED",
+    message: "You have reached your professor limit for the current plan.",
+  });
 
   const created = await createProfessor(db, {
     id: nanoid(),

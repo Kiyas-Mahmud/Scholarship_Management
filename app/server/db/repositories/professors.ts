@@ -34,6 +34,15 @@ export const createProfessor = async (db: Db, input: NewProfessor) => {
   return rows[0] ?? null;
 };
 
+export const countActiveProfessorsByUser = async (db: Db, userId: string) => {
+  const rows = await db
+    .select({ total: sql<number>`count(*)` })
+    .from(professors)
+    .where(and(eq(professors.userId, userId), isNull(professors.deletedAt)));
+
+  return rows[0]?.total ?? 0;
+};
+
 export const getProfessorById = async (
   db: Db,
   userId: string,
