@@ -48,7 +48,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 ### Phase D: Template and Outreach Core
 
 - D1: Template CRUD base implementation (completed)
-- D2: Variable interpolation engine
+- D2: Variable interpolation engine (completed)
 - D3: Outreach log write path
 - D4: Mark-as-sent flow with reminder creation
 
@@ -121,22 +121,22 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-D2 - Variable Interpolation Engine
+D3 - Outreach Log Write Path
 
 ### Branch
 
-`v1/task-d2-variable-interpolation`
+`v1/task-d3-outreach-log-write-path`
 
 ### Scope
 
-- Implement variable interpolation utility for template subject/body.
-- Define supported placeholder map for user/profile/professor context.
-- Add validation and safe fallback behavior for missing variables.
+- Add outreach log persistence schema and repository layer.
+- Add template generate endpoint wired to interpolation and log writes.
+- Add outreach logs listing endpoint for authenticated users.
 
 ### Definition of Done
 
-- Interpolation utility can render template text from context payload.
-- Unsupported or missing placeholders are handled predictably.
-- Helper is ready to plug into outreach send flow in D3/D4.
+- Outreach generation path writes immutable outreach logs.
+- Logs are queryable by authenticated users with ownership checks.
+- Generate flow returns rendered subject/body and resolved variables.
 - API responses follow shared success/error conventions.
 - Typecheck and build pass.
