@@ -50,7 +50,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 - D1: Template CRUD base implementation (completed)
 - D2: Variable interpolation engine (completed)
 - D3: Outreach log write path (completed)
-- D4: Mark-as-sent flow with reminder creation
+- D4: Mark-as-sent flow with reminder creation (completed)
 
 ### Phase E: Reminder and Dashboard Essentials
 
@@ -121,22 +121,22 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-D4 - Mark-as-Sent Flow with Reminder Creation
+E1 - Due Reminder Query Endpoint
 
 ### Branch
 
-`v1/task-d4-mark-sent-reminder`
+`v1/task-e1-due-reminder-query`
 
 ### Scope
 
-- Add mark-as-sent endpoint for outreach delivery tracking.
-- Update professor contact state on successful send actions.
-- Create follow-up reminders during mark-as-sent flow.
+- Add reminder list endpoint focused on pending due items.
+- Support dueBefore/dueAfter filtering for dashboard readiness.
+- Enforce user ownership and stable pagination defaults.
 
 ### Definition of Done
 
-- Sent flow writes outreach log entries with sent timestamp.
-- Professor state transitions to sent with last contact time.
-- Follow-up reminder records are created from send flow.
+- Pending reminders are queryable with consistent filter behavior.
+- Endpoint is ready for dashboard widget integration in E2.
+- Response shape follows shared success/error conventions.
 - API responses follow shared success/error conventions.
 - Typecheck and build pass.
