@@ -14,6 +14,9 @@
     "test:smoke:api": "node scripts/api-smoke-test.mjs",
     "test:regression:auth": "node scripts/auth-regression-test.mjs",
     "test:regression:status": "node scripts/status-transition-test.mjs",
+    "verify:env": "node scripts/verify-env-bindings.mjs",
+    "verify:env:production": "node scripts/verify-env-bindings.mjs --target=production",
+    "verify:env:staging": "node scripts/verify-env-bindings.mjs --target=staging",
     "db:generate": "drizzle-kit generate",
     "db:migrate:local": "wrangler d1 migrations apply scholarship_outreach_dev --local",
     "db:migrate:remote": "wrangler d1 migrations apply scholarship_outreach_dev --remote"

@@ -99,6 +99,20 @@ Set these in Cloudflare Pages project settings:
   - `NAGAD_MERCHANT_PRIVATE_KEY=...`
   - `NAGAD_CALLBACK_URL=https://your-domain.com/api/billing/callback/nagad`
 
+### Pre-Deploy Verification Command
+
+Run this from `app/` before production deployment:
+
+```bash
+npm run verify:env:production
+```
+
+This command validates:
+- required runtime environment variables
+- `APP_ENV` target consistency
+- minimum session secret strength in production
+- D1 binding configuration in `wrangler.toml`
+
 ---
 
 ## 6) Configure Cron Triggers (Reminders)
