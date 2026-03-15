@@ -15,6 +15,13 @@
       "when": 1773596552499,
       "tag": "0001_overconfident_synch",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1773598729604,
+      "tag": "0002_bright_krista_starr",
+      "breakpoints": true
     }
   ]
 }
