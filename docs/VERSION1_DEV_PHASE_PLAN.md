@@ -61,7 +61,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 
 ### Phase F: Billing Skeleton
 
-- F1: Plans and subscriptions read model
+- F1: Plans and subscriptions read model (completed)
 - F2: Entitlement guard middleware
 - F3: Usage limit enforcement on core actions
 - F4: Billing UI placeholders
@@ -121,23 +121,23 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-F1 - Plans and Subscriptions Read Model
+F2 - Entitlement Guard Middleware
 
 ### Branch
 
-`v1/task-f1-plans-subscriptions-read-model`
+`v1/task-f2-entitlement-guard`
 
 ### Scope
 
-- Add billing plans read endpoint with active plan filtering.
-- Add current subscription read endpoint for authenticated users.
-- Normalize subscription payload for entitlement middleware inputs.
+- Add reusable entitlement resolver helper for authenticated users.
+- Add middleware-style guard helpers for feature and quota checks.
+- Integrate resolved entitlements into /api/me response.
 
 ### Definition of Done
 
-- Plans endpoint returns active plan catalog in stable order.
-- Subscription endpoint returns current user subscription state.
-- Data model is ready for F2 entitlement guard integration.
+- Entitlements can be resolved from active subscription and plan limits.
+- Guard helpers provide consistent error responses for denied actions.
+- /api/me returns entitlement payload from billing model.
 - Response shape follows shared success/error conventions.
 - API responses follow shared success/error conventions.
 - Typecheck and build pass.
