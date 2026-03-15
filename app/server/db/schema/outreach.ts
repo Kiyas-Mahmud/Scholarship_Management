@@ -33,3 +33,34 @@ export const outreachLogs = sqliteTable(
     ),
   }),
 );
+
+export const reminders = sqliteTable(
+  "reminders",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    professorId: text("professor_id"),
+    type: text("type").notNull(),
+    dueAt: text("due_at").notNull(),
+    status: text("status").notNull().default("pending"),
+    snoozedUntil: text("snoozed_until"),
+    payloadJson: text("payload_json"),
+    createdAt: text("created_at")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: text("updated_at")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+  },
+  (table) => ({
+    userDueStatusIdx: index("reminders_user_due_status_idx").on(
+      table.userId,
+      table.dueAt,
+      table.status,
+    ),
+    professorDueIdx: index("reminders_professor_due_idx").on(
+      table.professorId,
+      table.dueAt,
+    ),
+  }),
+);

@@ -1,12 +1,13 @@
 import type { InferInsertModel } from "drizzle-orm";
 import { and, desc, eq, sql } from "drizzle-orm";
-import { outreachLogs } from "~/server/db/schema/outreach";
+import { outreachLogs, reminders } from "~/server/db/schema/outreach";
 
 type Db = NonNullable<
   ReturnType<typeof import("~/server/db/connection").getDb>
 >;
 
 type NewOutreachLog = InferInsertModel<typeof outreachLogs>;
+type NewReminder = InferInsertModel<typeof reminders>;
 
 export const createOutreachLog = async (db: Db, input: NewOutreachLog) => {
   await db.insert(outreachLogs).values(input);
@@ -61,4 +62,16 @@ export const listOutreachLogs = async (
     limit: query.limit,
     total: countRows[0]?.total ?? 0,
   };
+};
+
+export const createReminder = async (db: Db, input: NewReminder) => {
+  await db.insert(reminders).values(input);
+
+  const rows = await db
+    .select()
+    .from(reminders)
+    .where(eq(reminders.id, input.id))
+    .limit(1);
+
+  return rows[0] ?? null;
 };

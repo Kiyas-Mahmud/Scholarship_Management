@@ -22,6 +22,13 @@
       "when": 1773598729604,
       "tag": "0002_bright_krista_starr",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1773599061083,
+      "tag": "0003_smart_warbound",
+      "breakpoints": true
     }
   ]
 }
