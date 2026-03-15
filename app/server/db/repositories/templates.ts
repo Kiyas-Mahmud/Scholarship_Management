@@ -11,10 +11,7 @@ type NewTemplateVersion = InferInsertModel<typeof templateVersions>;
 
 const nowIso = () => new Date().toISOString();
 
-const createVersion = async (
-  db: Db,
-  input: NewTemplateVersion,
-) => {
+const createVersion = async (db: Db, input: NewTemplateVersion) => {
   await db.insert(templateVersions).values(input);
 };
 
@@ -121,10 +118,7 @@ export const getTemplateVersions = async (db: Db, templateId: string) => {
     .orderBy(desc(templateVersions.versionNumber));
 };
 
-export const getLatestTemplateVersion = async (
-  db: Db,
-  templateId: string,
-) => {
+export const getLatestTemplateVersion = async (db: Db, templateId: string) => {
   const rows = await db
     .select()
     .from(templateVersions)

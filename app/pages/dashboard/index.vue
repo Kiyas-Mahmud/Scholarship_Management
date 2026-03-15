@@ -31,7 +31,8 @@
         <div>
           <h2 class="text-base font-semibold">Billing Preview</h2>
           <p class="text-sm text-slate-600">
-            Payment and upgrade flows are in progress. Plan and subscription data is now wired.
+            Payment and upgrade flows are in progress. Plan and subscription
+            data is now wired.
           </p>
         </div>
         <button
@@ -53,17 +54,26 @@
             {{ subscriptionStatusLabel }}
           </p>
           <p class="mt-3 text-xs text-slate-500">
-            Limits: {{ professorLimitLabel }} professors, {{ templateLimitLabel }} templates
+            Limits: {{ professorLimitLabel }} professors,
+            {{ templateLimitLabel }} templates
           </p>
         </div>
 
         <div class="rounded-lg border border-slate-200 p-4">
           <p class="text-xs uppercase text-slate-500">Available Plans</p>
-          <p v-if="plansPending" class="mt-2 text-sm text-slate-600">Loading plans...</p>
-          <p v-else-if="plansError" class="mt-2 text-sm text-rose-600">Could not load plans.</p>
-          <ul v-else-if="availablePlans.length > 0" class="mt-2 space-y-1 text-sm text-slate-700">
+          <p v-if="plansPending" class="mt-2 text-sm text-slate-600">
+            Loading plans...
+          </p>
+          <p v-else-if="plansError" class="mt-2 text-sm text-rose-600">
+            Could not load plans.
+          </p>
+          <ul
+            v-else-if="availablePlans.length > 0"
+            class="mt-2 space-y-1 text-sm text-slate-700"
+          >
             <li v-for="plan in availablePlans" :key="plan.id">
-              {{ plan.name }} ({{ plan.billingPeriod }}) - BDT {{ plan.priceBdt }}
+              {{ plan.name }} ({{ plan.billingPeriod }}) - BDT
+              {{ plan.priceBdt }}
             </li>
           </ul>
           <p v-else class="mt-2 text-sm text-slate-600">

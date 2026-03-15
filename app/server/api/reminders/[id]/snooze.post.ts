@@ -7,9 +7,11 @@ import { enforceRateLimit } from "~/server/utils/rateLimit";
 import { requireUser } from "~/server/utils/requireUser";
 import { fail, ok, withErrorHandling } from "~/server/utils/response";
 
-const snoozeSchema = z.object({
-  snoozedUntil: z.string().datetime(),
-}).strict();
+const snoozeSchema = z
+  .object({
+    snoozedUntil: z.string().datetime(),
+  })
+  .strict();
 
 export default withErrorHandling(async (event) => {
   const { db, user } = await requireUser(event);
@@ -49,7 +51,12 @@ export default withErrorHandling(async (event) => {
     });
   }
 
-  const updated = await snoozeReminder(db, user.id, reminderId, input.snoozedUntil);
+  const updated = await snoozeReminder(
+    db,
+    user.id,
+    reminderId,
+    input.snoozedUntil,
+  );
 
   return ok(updated);
 });

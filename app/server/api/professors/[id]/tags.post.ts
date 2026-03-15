@@ -17,10 +17,12 @@ const tagNameSchema = z
     message: "Tag name must be 64 characters or less.",
   });
 
-const tagsSchema = z.object({
-  add: z.array(tagNameSchema).default([]),
-  remove: z.array(tagNameSchema).default([]),
-}).strict();
+const tagsSchema = z
+  .object({
+    add: z.array(tagNameSchema).default([]),
+    remove: z.array(tagNameSchema).default([]),
+  })
+  .strict();
 
 export default withErrorHandling(async (event) => {
   const { db, user } = await requireUser(event);

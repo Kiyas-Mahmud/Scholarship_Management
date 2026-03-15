@@ -9,12 +9,14 @@ import { enforceRateLimit } from "~/server/utils/rateLimit";
 import { requireUser } from "~/server/utils/requireUser";
 import { fail, ok, withErrorHandling } from "~/server/utils/response";
 
-const updateTemplateSchema = z.object({
-  name: z.string().trim().min(1).max(120),
-  subject: z.string().trim().min(1).max(300),
-  body: z.string().trim().min(1).max(10000),
-  isDefault: z.boolean().optional(),
-}).strict();
+const updateTemplateSchema = z
+  .object({
+    name: z.string().trim().min(1).max(120),
+    subject: z.string().trim().min(1).max(300),
+    body: z.string().trim().min(1).max(10000),
+    isDefault: z.boolean().optional(),
+  })
+  .strict();
 
 export default withErrorHandling(async (event) => {
   const { db, user } = await requireUser(event);
@@ -47,7 +49,12 @@ export default withErrorHandling(async (event) => {
   const body = await readBody(event);
   const input = updateTemplateSchema.parse(body);
 
-  const nameConflict = await getTemplateByName(db, user.id, input.name, templateId);
+  const nameConflict = await getTemplateByName(
+    db,
+    user.id,
+    input.name,
+    templateId,
+  );
 
   if (nameConflict) {
     return fail(409, {

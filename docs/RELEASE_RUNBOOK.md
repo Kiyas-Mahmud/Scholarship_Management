@@ -1,4 +1,5 @@
 # RELEASE_RUNBOOK.md
+
 # Scholarship Outreach SaaS - Release Runbook
 
 This runbook is the operator procedure for releasing Version 1 safely.
@@ -30,6 +31,7 @@ npm run db:migrate:remote
 ```
 
 Expected result:
+
 - Migration command exits successfully.
 - No pending migration drift.
 

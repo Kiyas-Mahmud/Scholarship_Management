@@ -1,7 +1,9 @@
 # DEPLOYMENT_GUIDE.md
+
 # Scholarship Outreach SaaS — Deployment Guide (Cloudflare + Nuxt 3 + D1 + R2)
 
 This guide describes a production deployment using Cloudflare Pages (Nuxt 3) with:
+
 - Cloudflare D1 database
 - Cloudflare R2 object storage
 - Cron Triggers for reminders
@@ -29,6 +31,7 @@ This guide describes a production deployment using Cloudflare Pages (Nuxt 3) wit
    - Ensure schema matches `DATABASE_SCHEMA.md`
 
 **Production notes**
+
 - Keep a migration history in `./drizzle/migrations`
 - Run migrations during CI/CD or via Wrangler command steps
 
@@ -43,6 +46,7 @@ This guide describes a production deployment using Cloudflare Pages (Nuxt 3) wit
 3. Use signed URLs for upload and download.
 
 Store only:
+
 - CV PDFs
 - exported CSVs
 - (optional) attachments
@@ -55,6 +59,7 @@ Store only:
   - Deploy via Cloudflare Pages
 
 **Key settings**
+
 - Ensure `server/api/*` routes are used for backend endpoints
 - Store secrets in Cloudflare Pages environment variables (never in repo)
 
@@ -65,21 +70,26 @@ Store only:
 Set these in Cloudflare Pages project settings:
 
 ### App
+
 - `APP_ENV=production`
 - `APP_BASE_URL=https://your-domain.com`
 
 ### Database
+
 - D1 binding configured in Pages settings (recommended)
 - Or provide binding name, e.g. `DB_BINDING=D1_DB`
 
 ### R2
+
 - `R2_BUCKET_NAME=scholarship-outreach-files-prod`
 
 ### Session/Auth
+
 - `SESSION_SECRET=...` (strong random)
 - `COOKIE_SECURE=true`
 
 ### Email (Optional)
+
 - `SMTP_HOST=...`
 - `SMTP_PORT=...`
 - `SMTP_USER=...`
@@ -87,6 +97,7 @@ Set these in Cloudflare Pages project settings:
 - `MAIL_FROM=no-reply@your-domain.com`
 
 ### Payments
+
 - bKash:
   - `BKASH_APP_KEY=...`
   - `BKASH_APP_SECRET=...`
@@ -108,6 +119,7 @@ npm run verify:env:production
 ```
 
 This command validates:
+
 - required runtime environment variables
 - `APP_ENV` target consistency
 - minimum session secret strength in production
@@ -122,17 +134,20 @@ Create cron jobs (Cloudflare Workers Cron Triggers) for scheduled tasks.
 Recommended schedules:
 
 ### Follow-up reminders (hourly)
+
 - Every hour:
   - fetch reminders due in next 1 hour
   - create notifications
   - optionally send email reminders
 
 ### Deadline alerts (daily)
+
 - Once daily:
   - check deadlines in 7/3/1 days
   - notify users
 
 ### Subscription expiry (daily)
+
 - Once daily:
   - expire subscriptions past end date
   - downgrade entitlements
@@ -142,6 +157,7 @@ Recommended schedules:
 ## 7) Observability (Production)
 
 Minimum recommended:
+
 - Log structured JSON in server routes
 - Create an `audit_logs` entry for payment and auth events
 - Track errors and timeouts:

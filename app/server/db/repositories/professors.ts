@@ -182,8 +182,9 @@ export const attachOrDetachTags = async (
   add: string[],
   remove: string[],
 ) => {
-  const normalize = (values: string[]) =>
-    [...new Set(values.map((item) => item.trim().toLowerCase()).filter(Boolean))];
+  const normalize = (values: string[]) => [
+    ...new Set(values.map((item) => item.trim().toLowerCase()).filter(Boolean)),
+  ];
 
   const removeSet = new Set(normalize(remove));
   const addNames = normalize(add).filter((name) => !removeSet.has(name));
@@ -274,7 +275,9 @@ export const listDeadlineWarnings = async (
   const now = new Date();
   const nowIso = now.toISOString();
   const computedDueBefore = new Date(now.getTime());
-  computedDueBefore.setUTCDate(computedDueBefore.getUTCDate() + query.warningDays);
+  computedDueBefore.setUTCDate(
+    computedDueBefore.getUTCDate() + query.warningDays,
+  );
 
   const dueBeforeIso = query.dueBefore ?? computedDueBefore.toISOString();
 
@@ -294,7 +297,11 @@ export const listDeadlineWarnings = async (
     .select()
     .from(professors)
     .where(whereClause)
-    .orderBy(asc(professors.deadlineAt), desc(professors.updatedAt), asc(professors.id))
+    .orderBy(
+      asc(professors.deadlineAt),
+      desc(professors.updatedAt),
+      asc(professors.id),
+    )
     .limit(query.limit)
     .offset((query.page - 1) * query.limit);
 

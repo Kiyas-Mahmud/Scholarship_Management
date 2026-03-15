@@ -1,4 +1,5 @@
 # DEPLOYMENT_CHECKLIST.md
+
 # Scholarship Outreach SaaS - Deployment Checklist
 
 Use this checklist for both staging and production deployments.
@@ -90,11 +91,13 @@ npm run db:migrate:remote
 ## 5) Post-Deploy Smoke Checks
 
 ### Public/Auth
+
 - [ ] Login works.
 - [ ] Signup works.
 - [ ] Session cookie is issued and secured.
 
 ### Core Product
+
 - [ ] Professor creation works.
 - [ ] Template creation works.
 - [ ] Template generation works.
@@ -102,11 +105,13 @@ npm run db:migrate:remote
 - [ ] Dashboard today data loads.
 
 ### Billing Skeleton
+
 - [ ] `/api/billing/plans` returns plans.
 - [ ] `/api/billing/subscription` returns current state.
 - [ ] Dashboard billing preview loads without client error.
 
 ### Security
+
 - [ ] Rate limit can be observed on auth endpoints under rapid repeat calls.
 - [ ] Rate limit can be observed on core mutation endpoints under rapid repeat calls.
 - [ ] API failures return normalized `{ ok: false, error: ... }` responses.

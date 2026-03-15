@@ -16,7 +16,9 @@ const runtimeConfigSchema = z.object({
   nagadMerchantPrivateKey: z.string(),
   nagadCallbackUrl: z.string(),
   public: z.object({
-    appEnv: z.enum(["development", "staging", "production"]).default("development"),
+    appEnv: z
+      .enum(["development", "staging", "production"])
+      .default("development"),
   }),
 });
 
@@ -26,16 +28,21 @@ export type ValidatedRuntimeConfig = z.infer<typeof runtimeConfigSchema> & {
   };
 };
 
-const DEV_FALLBACK_SESSION_SECRET = "dev-insecure-session-secret-change-before-production";
+const DEV_FALLBACK_SESSION_SECRET =
+  "dev-insecure-session-secret-change-before-production";
 
-export const getValidatedRuntimeConfig = (event?: H3Event): ValidatedRuntimeConfig => {
+export const getValidatedRuntimeConfig = (
+  event?: H3Event,
+): ValidatedRuntimeConfig => {
   const parsed = runtimeConfigSchema.parse(useRuntimeConfig(event));
   const appEnv = parsed.public.appEnv;
   const issues: string[] = [];
 
   if (appEnv === "production") {
     if (parsed.sessionSecret.trim().length < 32) {
-      issues.push("SESSION_SECRET must be at least 32 characters in production.");
+      issues.push(
+        "SESSION_SECRET must be at least 32 characters in production.",
+      );
     }
 
     if (!parsed.appBaseUrl.trim()) {

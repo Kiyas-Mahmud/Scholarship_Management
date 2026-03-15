@@ -1,5 +1,5 @@
-import { requireUser } from "~/server/utils/requireUser";
 import { getEntitlements } from "~/server/utils/entitlements";
+import { requireUser } from "~/server/utils/requireUser";
 import { ok, withErrorHandling } from "~/server/utils/response";
 
 export default withErrorHandling(async (event) => {

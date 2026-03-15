@@ -1,6 +1,9 @@
 /* eslint-disable no-console */
 
-const baseUrl = (process.env.API_BASE_URL ?? "http://127.0.0.1:3000").replace(/\/$/, "");
+const baseUrl = (process.env.API_BASE_URL ?? "http://127.0.0.1:3000").replace(
+  /\/$/,
+  "",
+);
 
 const email = `regression.${Date.now()}@example.com`;
 const wrongPassword = "WrongPass123!";
@@ -57,14 +60,23 @@ const assert = (condition, message) => {
 };
 
 const expectOk = (result, label) => {
-  assert(result.status >= 200 && result.status < 300, `${label}: expected 2xx, got ${result.status}`);
+  assert(
+    result.status >= 200 && result.status < 300,
+    `${label}: expected 2xx, got ${result.status}`,
+  );
   assert(result.data?.ok === true, `${label}: expected ok=true`);
 };
 
 const expectError = (result, status, code, label) => {
-  assert(result.status === status, `${label}: expected ${status}, got ${result.status}`);
+  assert(
+    result.status === status,
+    `${label}: expected ${status}, got ${result.status}`,
+  );
   assert(result.data?.ok === false, `${label}: expected ok=false`);
-  assert(result.data?.error?.code === code, `${label}: expected error code ${code}, got ${result.data?.error?.code}`);
+  assert(
+    result.data?.error?.code === code,
+    `${label}: expected error code ${code}, got ${result.data?.error?.code}`,
+  );
 };
 
 const runStep = async (label, fn) => {
@@ -135,10 +147,22 @@ const run = async () => {
     expectOk(profilePut, "profile put");
 
     const profile = profilePut.data?.data;
-    assert(profile?.fullName === "Regression User Updated", "profile fullName not trimmed");
-    assert(profile?.researchInterests === null, "researchInterests should normalize to null");
-    assert(profile?.preferredCountries === "Canada, Germany", "preferredCountries not trimmed");
-    assert(profile?.signatureBlock === "Best regards", "signatureBlock not trimmed");
+    assert(
+      profile?.fullName === "Regression User Updated",
+      "profile fullName not trimmed",
+    );
+    assert(
+      profile?.researchInterests === null,
+      "researchInterests should normalize to null",
+    );
+    assert(
+      profile?.preferredCountries === "Canada, Germany",
+      "preferredCountries not trimmed",
+    );
+    assert(
+      profile?.signatureBlock === "Best regards",
+      "signatureBlock not trimmed",
+    );
   });
 
   await runStep("profile payload validation enforced", async () => {

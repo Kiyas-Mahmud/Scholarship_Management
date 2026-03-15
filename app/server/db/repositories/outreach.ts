@@ -176,7 +176,11 @@ export const listReminders = async (
     .select()
     .from(reminders)
     .where(whereClause)
-    .orderBy(asc(reminders.dueAt), desc(reminders.createdAt), desc(reminders.id))
+    .orderBy(
+      asc(reminders.dueAt),
+      desc(reminders.createdAt),
+      desc(reminders.id),
+    )
     .limit(query.limit)
     .offset((query.page - 1) * query.limit);
 
@@ -197,7 +201,10 @@ export const getDashboardTodaySummary = async (
     tasksLimit: number;
   },
 ) => {
-  const pendingBase = and(eq(reminders.userId, userId), eq(reminders.status, "pending"));
+  const pendingBase = and(
+    eq(reminders.userId, userId),
+    eq(reminders.status, "pending"),
+  );
 
   const dueTodayCount = await getCount(
     db,
@@ -217,7 +224,11 @@ export const getDashboardTodaySummary = async (
     .select()
     .from(reminders)
     .where(and(pendingBase, lte(reminders.dueAt, input.dayEndIso)))
-    .orderBy(asc(reminders.dueAt), desc(reminders.createdAt), desc(reminders.id))
+    .orderBy(
+      asc(reminders.dueAt),
+      desc(reminders.createdAt),
+      desc(reminders.id),
+    )
     .limit(input.tasksLimit);
 
   const sentRows = await db

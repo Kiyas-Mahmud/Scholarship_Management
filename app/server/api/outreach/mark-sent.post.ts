@@ -20,14 +20,16 @@ import { enforceRateLimit } from "~/server/utils/rateLimit";
 import { requireUser } from "~/server/utils/requireUser";
 import { fail, ok, withErrorHandling } from "~/server/utils/response";
 
-const markSentSchema = z.object({
-  professorId: z.string().trim().min(1),
-  subjectFinal: z.string().trim().min(1).max(500),
-  bodyFinal: z.string().trim().min(1).max(20000),
-  templateId: z.string().trim().min(1).optional(),
-  templateVersionId: z.string().trim().min(1).optional(),
-  followupInDays: z.coerce.number().int().min(1).max(365).default(7),
-}).strict();
+const markSentSchema = z
+  .object({
+    professorId: z.string().trim().min(1),
+    subjectFinal: z.string().trim().min(1).max(500),
+    bodyFinal: z.string().trim().min(1).max(20000),
+    templateId: z.string().trim().min(1).optional(),
+    templateVersionId: z.string().trim().min(1).optional(),
+    followupInDays: z.coerce.number().int().min(1).max(365).default(7),
+  })
+  .strict();
 
 const addDaysIso = (date: Date, days: number) => {
   const copy = new Date(date.getTime());
@@ -57,9 +59,7 @@ export default withErrorHandling(async (event) => {
     });
   }
 
-  if (
-    !isAllowedStatusTransition(professor.status, PROFESSOR_STATUSES.SENT)
-  ) {
+  if (!isAllowedStatusTransition(professor.status, PROFESSOR_STATUSES.SENT)) {
     return fail(409, {
       code: "INVALID_STATUS_TRANSITION",
       message: `Transition from ${professor.status} to sent is not allowed.`,
@@ -78,7 +78,10 @@ export default withErrorHandling(async (event) => {
   }
 
   if (input.templateVersionId) {
-    const templateVersion = await getTemplateVersionById(db, input.templateVersionId);
+    const templateVersion = await getTemplateVersionById(
+      db,
+      input.templateVersionId,
+    );
 
     if (!templateVersion) {
       return fail(404, {
@@ -95,7 +98,11 @@ export default withErrorHandling(async (event) => {
     }
 
     const ownershipTemplateId = input.templateId ?? templateVersion.templateId;
-    const ownershipTemplate = await getTemplateById(db, user.id, ownershipTemplateId);
+    const ownershipTemplate = await getTemplateById(
+      db,
+      user.id,
+      ownershipTemplateId,
+    );
 
     if (!ownershipTemplate) {
       return fail(404, {
