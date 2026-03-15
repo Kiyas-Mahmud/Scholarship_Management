@@ -184,3 +184,12 @@ Minimum recommended:
 - `prod`: production D1 + R2 bucket
 
 Keep payment gateways in sandbox for staging.
+
+---
+
+## 12) Operator Docs
+
+For release execution details, use:
+
+- `DEPLOYMENT_CHECKLIST.md` for pre-deploy/deploy/post-deploy verification
+- `RELEASE_RUNBOOK.md` for release roles, rollback, and hotfix procedures
