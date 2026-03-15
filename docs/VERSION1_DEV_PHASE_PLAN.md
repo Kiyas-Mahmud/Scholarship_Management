@@ -55,7 +55,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 ### Phase E: Reminder and Dashboard Essentials
 
 - E1: Due reminder query endpoint (completed)
-- E2: Dashboard today/tasks widget
+- E2: Dashboard today/tasks widget (completed)
 - E3: Reminder done/snooze actions
 - E4: Deadline warning query logic
 
@@ -121,22 +121,23 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-E2 - Dashboard Today/Tasks Widget
+E3 - Reminder Done/Snooze Actions
 
 ### Branch
 
-`v1/task-e2-dashboard-tasks-widget`
+`v1/task-e3-reminder-done-snooze`
 
 ### Scope
 
-- Build dashboard API output for today's summary and pending tasks.
-- Compose reminder and outreach aggregates needed by homepage widget.
-- Keep response optimized for lightweight initial dashboard load.
+- Add reminder done action endpoint with ownership checks.
+- Add reminder snooze action endpoint with datetime validation.
+- Ensure reminder updates preserve consistent status transitions.
 
 ### Definition of Done
 
-- Dashboard endpoint returns today's counts and prioritized task list.
-- Output is directly consumable by E2 UI with minimal client transforms.
+- Done/snooze routes update reminders safely for authenticated users.
+- Endpoints return updated reminder records in shared response shape.
+- Invalid reminder mutations return consistent client-safe errors.
 - Response shape follows shared success/error conventions.
 - API responses follow shared success/error conventions.
 - Typecheck and build pass.

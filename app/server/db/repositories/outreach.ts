@@ -1,5 +1,5 @@
 import type { InferInsertModel } from "drizzle-orm";
-import { and, asc, desc, eq, gte, lte, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gte, lt, lte, sql } from "drizzle-orm";
 import { outreachLogs, reminders } from "~/server/db/schema/outreach";
 
 type Db = NonNullable<
@@ -8,6 +8,15 @@ type Db = NonNullable<
 
 type NewOutreachLog = InferInsertModel<typeof outreachLogs>;
 type NewReminder = InferInsertModel<typeof reminders>;
+
+const getCount = async (db: Db, whereClause: ReturnType<typeof and>) => {
+  const rows = await db
+    .select({ total: sql<number>`count(*)` })
+    .from(reminders)
+    .where(whereClause);
+
+  return rows[0]?.total ?? 0;
+};
 
 export const createOutreachLog = async (db: Db, input: NewOutreachLog) => {
   await db.insert(outreachLogs).values(input);
@@ -126,5 +135,60 @@ export const listReminders = async (
     page: query.page,
     limit: query.limit,
     total: countRows[0]?.total ?? 0,
+  };
+};
+
+export const getDashboardTodaySummary = async (
+  db: Db,
+  userId: string,
+  input: {
+    dayStartIso: string;
+    dayEndIso: string;
+    tasksLimit: number;
+  },
+) => {
+  const pendingBase = and(eq(reminders.userId, userId), eq(reminders.status, "pending"));
+
+  const dueTodayCount = await getCount(
+    db,
+    and(
+      pendingBase,
+      gte(reminders.dueAt, input.dayStartIso),
+      lte(reminders.dueAt, input.dayEndIso),
+    ),
+  );
+
+  const overdueCount = await getCount(
+    db,
+    and(pendingBase, lt(reminders.dueAt, input.dayStartIso)),
+  );
+
+  const tasks = await db
+    .select()
+    .from(reminders)
+    .where(and(pendingBase, lte(reminders.dueAt, input.dayEndIso)))
+    .orderBy(asc(reminders.dueAt), desc(reminders.createdAt), desc(reminders.id))
+    .limit(input.tasksLimit);
+
+  const sentRows = await db
+    .select({ total: sql<number>`count(*)` })
+    .from(outreachLogs)
+    .where(
+      and(
+        eq(outreachLogs.userId, userId),
+        eq(outreachLogs.actionType, "sent"),
+        gte(outreachLogs.sentAt, input.dayStartIso),
+        lte(outreachLogs.sentAt, input.dayEndIso),
+      ),
+    );
+
+  return {
+    counts: {
+      dueToday: dueTodayCount,
+      overdue: overdueCount,
+      sentToday: sentRows[0]?.total ?? 0,
+      taskQueueSize: tasks.length,
+    },
+    tasks,
   };
 };
