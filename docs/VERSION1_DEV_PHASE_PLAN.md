@@ -49,7 +49,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 
 - D1: Template CRUD base implementation (completed)
 - D2: Variable interpolation engine (completed)
-- D3: Outreach log write path
+- D3: Outreach log write path (completed)
 - D4: Mark-as-sent flow with reminder creation
 
 ### Phase E: Reminder and Dashboard Essentials
@@ -121,22 +121,22 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-D3 - Outreach Log Write Path
+D4 - Mark-as-Sent Flow with Reminder Creation
 
 ### Branch
 
-`v1/task-d3-outreach-log-write-path`
+`v1/task-d4-mark-sent-reminder`
 
 ### Scope
 
-- Add outreach log persistence schema and repository layer.
-- Add template generate endpoint wired to interpolation and log writes.
-- Add outreach logs listing endpoint for authenticated users.
+- Add mark-as-sent endpoint for outreach delivery tracking.
+- Update professor contact state on successful send actions.
+- Create follow-up reminders during mark-as-sent flow.
 
 ### Definition of Done
 
-- Outreach generation path writes immutable outreach logs.
-- Logs are queryable by authenticated users with ownership checks.
-- Generate flow returns rendered subject/body and resolved variables.
+- Sent flow writes outreach log entries with sent timestamp.
+- Professor state transitions to sent with last contact time.
+- Follow-up reminder records are created from send flow.
 - API responses follow shared success/error conventions.
 - Typecheck and build pass.

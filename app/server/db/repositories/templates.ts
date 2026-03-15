@@ -112,6 +112,20 @@ export const getTemplateVersions = async (db: Db, templateId: string) => {
     .orderBy(desc(templateVersions.versionNumber));
 };
 
+export const getLatestTemplateVersion = async (
+  db: Db,
+  templateId: string,
+) => {
+  const rows = await db
+    .select()
+    .from(templateVersions)
+    .where(eq(templateVersions.templateId, templateId))
+    .orderBy(desc(templateVersions.versionNumber))
+    .limit(1);
+
+  return rows[0] ?? null;
+};
+
 export const updateTemplate = async (
   db: Db,
   userId: string,
