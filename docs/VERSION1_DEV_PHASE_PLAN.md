@@ -62,7 +62,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 ### Phase F: Billing Skeleton
 
 - F1: Plans and subscriptions read model (completed)
-- F2: Entitlement guard middleware
+- F2: Entitlement guard middleware (completed)
 - F3: Usage limit enforcement on core actions
 - F4: Billing UI placeholders
 
@@ -121,23 +121,23 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-F2 - Entitlement Guard Middleware
+F3 - Usage Limit Enforcement on Core Actions
 
 ### Branch
 
-`v1/task-f2-entitlement-guard`
+`v1/task-f3-usage-limit-enforcement`
 
 ### Scope
 
-- Add reusable entitlement resolver helper for authenticated users.
-- Add middleware-style guard helpers for feature and quota checks.
-- Integrate resolved entitlements into /api/me response.
+- Enforce professor creation limits using entitlement quotas.
+- Enforce template creation limits using entitlement quotas.
+- Return consistent denial errors with usage details.
 
 ### Definition of Done
 
-- Entitlements can be resolved from active subscription and plan limits.
-- Guard helpers provide consistent error responses for denied actions.
-- /api/me returns entitlement payload from billing model.
+- Core create actions respect plan limits.
+- Limit exceed responses are deterministic and client-safe.
+- Existing successful flows continue to pass validation/build.
 - Response shape follows shared success/error conventions.
 - API responses follow shared success/error conventions.
 - Typecheck and build pass.
