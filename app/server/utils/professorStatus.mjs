@@ -1,0 +1,47 @@
+export const PROFESSOR_STATUSES = Object.freeze({
+  DRAFT: "draft",
+  SENT: "sent",
+  REPLIED: "replied",
+  FOLLOWUP: "followup",
+  INTERVIEW: "interview",
+  ACCEPTED: "accepted",
+  REJECTED: "rejected",
+});
+
+export const ALLOWED_STATUS_TRANSITIONS = Object.freeze({
+  [PROFESSOR_STATUSES.DRAFT]: [
+    PROFESSOR_STATUSES.SENT,
+    PROFESSOR_STATUSES.REJECTED,
+  ],
+  [PROFESSOR_STATUSES.SENT]: [
+    PROFESSOR_STATUSES.REPLIED,
+    PROFESSOR_STATUSES.FOLLOWUP,
+    PROFESSOR_STATUSES.REJECTED,
+  ],
+  [PROFESSOR_STATUSES.REPLIED]: [
+    PROFESSOR_STATUSES.FOLLOWUP,
+    PROFESSOR_STATUSES.INTERVIEW,
+    PROFESSOR_STATUSES.ACCEPTED,
+    PROFESSOR_STATUSES.REJECTED,
+  ],
+  [PROFESSOR_STATUSES.FOLLOWUP]: [
+    PROFESSOR_STATUSES.REPLIED,
+    PROFESSOR_STATUSES.INTERVIEW,
+    PROFESSOR_STATUSES.REJECTED,
+  ],
+  [PROFESSOR_STATUSES.INTERVIEW]: [
+    PROFESSOR_STATUSES.ACCEPTED,
+    PROFESSOR_STATUSES.REJECTED,
+  ],
+  [PROFESSOR_STATUSES.ACCEPTED]: [],
+  [PROFESSOR_STATUSES.REJECTED]: [],
+});
+
+export const isAllowedStatusTransition = (fromStatus, toStatus) => {
+  if (fromStatus === toStatus) {
+    return true;
+  }
+
+  const allowed = ALLOWED_STATUS_TRANSITIONS[fromStatus] ?? [];
+  return allowed.includes(toStatus);
+};

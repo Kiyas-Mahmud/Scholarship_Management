@@ -3,9 +3,9 @@ import {
   listProfessorTagNames,
 } from "~/server/db/repositories/professors";
 import { requireUser } from "~/server/utils/requireUser";
-import { fail, ok } from "~/server/utils/response";
+import { fail, ok, withErrorHandling } from "~/server/utils/response";
 
-export default defineEventHandler(async (event) => {
+export default withErrorHandling(async (event) => {
   const { db, user } = await requireUser(event);
   const professorId = getRouterParam(event, "id");
 
@@ -26,9 +26,12 @@ export default defineEventHandler(async (event) => {
   }
 
   const tagNames = await listProfessorTagNames(db, professorId);
+  const normalizedTags = [...new Set(tagNames)].sort((a, b) =>
+    a.localeCompare(b),
+  );
 
   return ok({
     ...professor,
-    tags: tagNames,
+    tags: normalizedTags,
   });
 });

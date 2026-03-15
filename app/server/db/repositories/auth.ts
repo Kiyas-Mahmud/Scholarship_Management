@@ -1,5 +1,5 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import { and, eq, gt } from "drizzle-orm";
+import { and, eq, gt, lt } from "drizzle-orm";
 import { sessions } from "~/server/db/schema/sessions";
 import { profiles, users } from "~/server/db/schema/users";
 
@@ -60,6 +60,17 @@ export const createSession = async (
 
 export const deleteSession = async (db: NonNullable<Db>, token: string) => {
   await db.delete(sessions).where(eq(sessions.token, token));
+};
+
+export const deleteExpiredSessions = async (db: NonNullable<Db>) => {
+  await db.delete(sessions).where(lt(sessions.expiresAt, nowIso()));
+};
+
+export const deleteSessionsByUserId = async (
+  db: NonNullable<Db>,
+  userId: string,
+) => {
+  await db.delete(sessions).where(eq(sessions.userId, userId));
 };
 
 export const findUserByValidSession = async (

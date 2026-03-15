@@ -12,9 +12,9 @@ import {
   setSessionCookie,
 } from "~/server/utils/auth";
 import { hashPassword } from "~/server/utils/password";
-import { fail, ok } from "~/server/utils/response";
+import { fail, ok, withErrorHandling } from "~/server/utils/response";
 
-export default defineEventHandler(async (event) => {
+export default withErrorHandling(async (event) => {
   const input = await parseSignupBody(event);
   const db = getDb(event);
 

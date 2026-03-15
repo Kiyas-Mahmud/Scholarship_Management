@@ -4,17 +4,40 @@ import {
   updateProfileByUserId,
 } from "~/server/db/repositories/auth";
 import { requireUser } from "~/server/utils/requireUser";
-import { fail, ok } from "~/server/utils/response";
+import { fail, ok, withErrorHandling } from "~/server/utils/response";
+
+const nullableText = (maxLength: number) =>
+  z
+    .union([z.string(), z.null(), z.undefined()])
+    .transform((value) => {
+      if (value == null) {
+        return null;
+      }
+
+      const normalized = value.trim();
+      return normalized.length === 0 ? null : normalized;
+    })
+    .refine((value) => value == null || value.length <= maxLength, {
+      message: `Must be ${maxLength} characters or less.`,
+    });
 
 const profileSchema = z.object({
-  fullName: z.string().min(2).max(100),
+  fullName: z
+    .string()
+    .transform((value) => value.trim())
+    .refine((value) => value.length >= 2, {
+      message: "Full name must be at least 2 characters.",
+    })
+    .refine((value) => value.length <= 100, {
+      message: "Full name must be 100 characters or less.",
+    }),
   degreeTarget: z.enum(["MS", "PhD", "RA"]),
-  researchInterests: z.string().max(500).nullable(),
-  preferredCountries: z.string().max(500).nullable(),
-  signatureBlock: z.string().max(1000).nullable(),
-});
+  researchInterests: nullableText(500),
+  preferredCountries: nullableText(500),
+  signatureBlock: nullableText(1000),
+}).strict();
 
-export default defineEventHandler(async (event) => {
+export default withErrorHandling(async (event) => {
   const { db, user } = await requireUser(event);
   const existing = await getProfileByUserId(db, user.id);
 
@@ -26,7 +49,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const body = await readBody(event);
-  const input = profileSchema.parse(body);
+  const input = profileSchema.parse(body ?? {});
 
   const profile = await updateProfileByUserId(db, user.id, input);
 

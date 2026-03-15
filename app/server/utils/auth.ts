@@ -4,20 +4,46 @@ import { z } from "zod";
 
 const SESSION_COOKIE = "sos_session";
 
+const emailSchema = z
+  .string()
+  .trim()
+  .min(1)
+  .email()
+  .max(254)
+  .transform((value) => value.toLowerCase());
+
+const passwordSchema = z
+  .string()
+  .min(8)
+  .max(128)
+  .refine((value) => /[a-z]/.test(value), {
+    message: "Password must include at least one lowercase letter.",
+  })
+  .refine((value) => /[A-Z]/.test(value), {
+    message: "Password must include at least one uppercase letter.",
+  })
+  .refine((value) => /\d/.test(value), {
+    message: "Password must include at least one number.",
+  })
+  .refine((value) => /[^A-Za-z0-9]/.test(value), {
+    message: "Password must include at least one special character.",
+  });
+
+const fullNameSchema = z
+  .string()
+  .trim()
+  .min(2)
+  .max(100)
+  .transform((value) => value.replace(/\s+/g, " "));
+
 const signupSchema = z.object({
-  email: z
-    .string()
-    .email()
-    .transform((value) => value.toLowerCase()),
-  password: z.string().min(8).max(128),
-  fullName: z.string().min(2).max(100),
+  email: emailSchema,
+  password: passwordSchema,
+  fullName: fullNameSchema,
 });
 
 const loginSchema = z.object({
-  email: z
-    .string()
-    .email()
-    .transform((value) => value.toLowerCase()),
+  email: emailSchema,
   password: z.string().min(8).max(128),
 });
 

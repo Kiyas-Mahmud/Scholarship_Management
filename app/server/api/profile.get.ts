@@ -1,8 +1,8 @@
 import { getProfileByUserId } from "~/server/db/repositories/auth";
 import { requireUser } from "~/server/utils/requireUser";
-import { fail, ok } from "~/server/utils/response";
+import { fail, ok, withErrorHandling } from "~/server/utils/response";
 
-export default defineEventHandler(async (event) => {
+export default withErrorHandling(async (event) => {
   const { db, user } = await requireUser(event);
   const profile = await getProfileByUserId(db, user.id);
 

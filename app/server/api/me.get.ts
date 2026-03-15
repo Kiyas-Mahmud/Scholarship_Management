@@ -1,7 +1,7 @@
 import { requireUser } from "~/server/utils/requireUser";
-import { ok } from "~/server/utils/response";
+import { ok, withErrorHandling } from "~/server/utils/response";
 
-export default defineEventHandler(async (event) => {
+export default withErrorHandling(async (event) => {
   const { user } = await requireUser(event);
 
   return ok({

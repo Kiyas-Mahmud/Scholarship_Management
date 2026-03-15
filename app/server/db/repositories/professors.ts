@@ -1,5 +1,15 @@
 import type { InferInsertModel } from "drizzle-orm";
-import { and, asc, desc, eq, inArray, isNull, like, or, sql } from "drizzle-orm";
+import {
+  and,
+  asc,
+  desc,
+  eq,
+  inArray,
+  isNull,
+  like,
+  or,
+  sql,
+} from "drizzle-orm";
 import { professorTags, professors, tags } from "~/server/db/schema/professors";
 
 type Db = NonNullable<
@@ -84,14 +94,22 @@ export const listProfessors = async (
 
   const orderBy =
     query.sort === "deadline"
-      ? asc(professors.deadlineAt)
-      : desc(professors.lastContactAt);
+      ? [
+          asc(professors.deadlineAt),
+          desc(professors.updatedAt),
+          asc(professors.id),
+        ]
+      : [
+          desc(professors.lastContactAt),
+          desc(professors.updatedAt),
+          asc(professors.id),
+        ];
 
   const rows = await db
     .select()
     .from(professors)
     .where(whereClause)
-    .orderBy(orderBy)
+    .orderBy(...orderBy)
     .limit(query.limit)
     .offset((query.page - 1) * query.limit);
 
@@ -153,8 +171,14 @@ export const attachOrDetachTags = async (
   add: string[],
   remove: string[],
 ) => {
-  if (add.length > 0) {
-    for (const tagName of add) {
+  const normalize = (values: string[]) =>
+    [...new Set(values.map((item) => item.trim().toLowerCase()).filter(Boolean))];
+
+  const removeSet = new Set(normalize(remove));
+  const addNames = normalize(add).filter((name) => !removeSet.has(name));
+
+  if (addNames.length > 0) {
+    for (const tagName of addNames) {
       const normalized = tagName.trim().toLowerCase();
       if (!normalized) continue;
 
@@ -192,10 +216,8 @@ export const attachOrDetachTags = async (
     }
   }
 
-  if (remove.length > 0) {
-    const names = remove
-      .map((item) => item.trim().toLowerCase())
-      .filter(Boolean);
+  if (removeSet.size > 0) {
+    const names = [...removeSet];
 
     if (names.length > 0) {
       const rows = await db
@@ -222,7 +244,8 @@ export const listProfessorTagNames = async (db: Db, professorId: string) => {
     .select({ name: tags.name })
     .from(professorTags)
     .innerJoin(tags, eq(tags.id, professorTags.tagId))
-    .where(eq(professorTags.professorId, professorId));
+    .where(eq(professorTags.professorId, professorId))
+    .orderBy(asc(tags.name));
 
   return rows.map((row) => row.name);
 };

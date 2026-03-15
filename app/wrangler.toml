@@ -1,0 +1,9 @@
+name = "scholarship-management"
+compatibility_date = "2026-03-13"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "scholarship_outreach_dev"
+database_id = "7185dc8c-8927-4074-a163-1cf2a7173443"
+preview_database_id = "7185dc8c-8927-4074-a163-1cf2a7173443"
+migrations_dir = "drizzle/migrations"
