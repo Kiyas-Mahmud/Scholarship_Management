@@ -1,9 +1,11 @@
 import { nanoid } from "nanoid";
 import { z } from "zod";
 import {
+  countActiveTemplatesByUser,
   createTemplate,
   getTemplateByName,
 } from "~/server/db/repositories/templates";
+import { getEntitlements, guardUsageLimit } from "~/server/utils/entitlements";
 import { requireUser } from "~/server/utils/requireUser";
 import { fail, ok, withErrorHandling } from "~/server/utils/response";
 
@@ -18,6 +20,15 @@ export default withErrorHandling(async (event) => {
   const { db, user } = await requireUser(event);
   const body = await readBody(event);
   const input = createTemplateSchema.parse(body);
+
+  const entitlements = await getEntitlements(db, user.id);
+  const activeCount = await countActiveTemplatesByUser(db, user.id);
+
+  guardUsageLimit(activeCount, entitlements.limits.maxTemplates, {
+    resource: "templates",
+    code: "TEMPLATE_LIMIT_REACHED",
+    message: "You have reached your template limit for the current plan.",
+  });
 
   const existing = await getTemplateByName(db, user.id, input.name);
 

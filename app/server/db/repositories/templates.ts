@@ -51,6 +51,15 @@ export const createTemplate = async (
   return rows[0] ?? null;
 };
 
+export const countActiveTemplatesByUser = async (db: Db, userId: string) => {
+  const rows = await db
+    .select({ total: sql<number>`count(*)` })
+    .from(templates)
+    .where(and(eq(templates.userId, userId), isNull(templates.deletedAt)));
+
+  return rows[0]?.total ?? 0;
+};
+
 export const listTemplates = async (db: Db, userId: string) => {
   return db
     .select()

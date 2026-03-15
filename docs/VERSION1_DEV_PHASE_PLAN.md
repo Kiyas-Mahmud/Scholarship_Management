@@ -63,7 +63,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 
 - F1: Plans and subscriptions read model (completed)
 - F2: Entitlement guard middleware (completed)
-- F3: Usage limit enforcement on core actions
+- F3: Usage limit enforcement on core actions (completed)
 - F4: Billing UI placeholders
 
 ### Phase G: Release Readiness
@@ -121,23 +121,23 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-F3 - Usage Limit Enforcement on Core Actions
+F4 - Billing UI Placeholders
 
 ### Branch
 
-`v1/task-f3-usage-limit-enforcement`
+`v1/task-f4-billing-ui-placeholders`
 
 ### Scope
 
-- Enforce professor creation limits using entitlement quotas.
-- Enforce template creation limits using entitlement quotas.
-- Return consistent denial errors with usage details.
+- Add billing section in dashboard with plan/subscription placeholders.
+- Show active plan catalog in placeholder UI for upgrade flow.
+- Keep layout lightweight and consistent with existing dashboard style.
 
 ### Definition of Done
 
-- Core create actions respect plan limits.
-- Limit exceed responses are deterministic and client-safe.
-- Existing successful flows continue to pass validation/build.
+- Billing placeholder UI renders with live billing API data.
+- Page communicates upcoming payment/upgrade flow clearly.
+- Existing dashboard functionality remains stable.
 - Response shape follows shared success/error conventions.
 - API responses follow shared success/error conventions.
 - Typecheck and build pass.
