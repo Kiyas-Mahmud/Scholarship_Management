@@ -5,6 +5,7 @@ import {
   getTemplateByName,
   updateTemplate,
 } from "~/server/db/repositories/templates";
+import { enforceRateLimit } from "~/server/utils/rateLimit";
 import { requireUser } from "~/server/utils/requireUser";
 import { fail, ok, withErrorHandling } from "~/server/utils/response";
 
@@ -17,6 +18,14 @@ const updateTemplateSchema = z.object({
 
 export default withErrorHandling(async (event) => {
   const { db, user } = await requireUser(event);
+
+  enforceRateLimit(event, {
+    bucket: "templates-update-user",
+    maxRequests: 50,
+    windowMs: 60_000,
+    key: user.id,
+  });
+
   const templateId = getRouterParam(event, "id");
 
   if (!templateId) {

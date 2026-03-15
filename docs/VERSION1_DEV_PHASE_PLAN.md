@@ -68,7 +68,7 @@ All feature work will be done in short-lived sub-branches and merged back to `ve
 
 ### Phase G: Release Readiness
 
-- G1: Security and rate-limit pass
+- G1: Security and rate-limit pass (completed)
 - G2: Deployment checklist and runbook
 - G3: Production env and binding verification
 - G4: V1 acceptance checklist and sign-off
@@ -121,23 +121,20 @@ A1 - Finalize D1 and Migration Workflow
 
 ### Task ID
 
-G1 - Security and Rate-Limit Pass
+G2 - Deployment Checklist and Runbook
 
 ### Branch
 
-`v1/task-g1-security-rate-limit`
+`v1/task-g2-deployment-runbook`
 
 ### Scope
 
-- Add baseline rate limiting for sensitive auth and mutation routes.
-- Review API safety checks and improve failure codes/messages as needed.
-- Ensure security hardening does not break existing happy paths.
+- Expand deployment docs into an operator checklist with concrete steps.
+- Add a concise runbook for rollout, smoke checks, and rollback.
+- Ensure docs align with current Nuxt, D1, and billing/reminder features.
 
 ### Definition of Done
 
-- Core sensitive endpoints have practical request throttling.
-- Security-related failures are normalized and client-safe.
-- Regression checks pass for auth and core APIs.
-- Response shape follows shared success/error conventions.
-- API responses follow shared success/error conventions.
-- Typecheck and build pass.
+- Deployment documentation has step-by-step production/staging checklists.
+- Runbook includes pre-deploy, deploy, post-deploy, and rollback flows.
+- Operational commands are reproducible and copy-ready.

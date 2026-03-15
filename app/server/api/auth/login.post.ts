@@ -13,9 +13,17 @@ import {
   setSessionCookie,
 } from "~/server/utils/auth";
 import { verifyPassword } from "~/server/utils/password";
+import { enforceRateLimit } from "~/server/utils/rateLimit";
 import { fail, ok, withErrorHandling } from "~/server/utils/response";
 
 export default withErrorHandling(async (event) => {
+  enforceRateLimit(event, {
+    bucket: "auth-login-ip",
+    maxRequests: 8,
+    windowMs: 60_000,
+    blockMs: 5 * 60_000,
+  });
+
   const input = await parseLoginBody(event);
   const db = getDb(event);
 

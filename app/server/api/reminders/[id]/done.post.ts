@@ -2,11 +2,20 @@ import {
   getReminderById,
   markReminderDone,
 } from "~/server/db/repositories/outreach";
+import { enforceRateLimit } from "~/server/utils/rateLimit";
 import { requireUser } from "~/server/utils/requireUser";
 import { fail, ok, withErrorHandling } from "~/server/utils/response";
 
 export default withErrorHandling(async (event) => {
   const { db, user } = await requireUser(event);
+
+  enforceRateLimit(event, {
+    bucket: "reminders-done-user",
+    maxRequests: 60,
+    windowMs: 60_000,
+    key: user.id,
+  });
+
   const reminderId = getRouterParam(event, "id");
 
   if (!reminderId) {

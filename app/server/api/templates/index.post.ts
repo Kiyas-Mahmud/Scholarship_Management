@@ -6,18 +6,29 @@ import {
   getTemplateByName,
 } from "~/server/db/repositories/templates";
 import { getEntitlements, guardUsageLimit } from "~/server/utils/entitlements";
+import { enforceRateLimit } from "~/server/utils/rateLimit";
 import { requireUser } from "~/server/utils/requireUser";
 import { fail, ok, withErrorHandling } from "~/server/utils/response";
 
-const createTemplateSchema = z.object({
-  name: z.string().trim().min(1).max(120),
-  subject: z.string().trim().min(1).max(300),
-  body: z.string().trim().min(1).max(10000),
-  isDefault: z.boolean().optional(),
-}).strict();
+const createTemplateSchema = z
+  .object({
+    name: z.string().trim().min(1).max(120),
+    subject: z.string().trim().min(1).max(300),
+    body: z.string().trim().min(1).max(10000),
+    isDefault: z.boolean().optional(),
+  })
+  .strict();
 
 export default withErrorHandling(async (event) => {
   const { db, user } = await requireUser(event);
+
+  enforceRateLimit(event, {
+    bucket: "templates-create-user",
+    maxRequests: 40,
+    windowMs: 60_000,
+    key: user.id,
+  });
+
   const body = await readBody(event);
   const input = createTemplateSchema.parse(body);
 

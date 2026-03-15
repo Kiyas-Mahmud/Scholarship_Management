@@ -16,6 +16,7 @@ import {
   PROFESSOR_STATUSES,
   isAllowedStatusTransition,
 } from "~/server/utils/professorStatus.mjs";
+import { enforceRateLimit } from "~/server/utils/rateLimit";
 import { requireUser } from "~/server/utils/requireUser";
 import { fail, ok, withErrorHandling } from "~/server/utils/response";
 
@@ -36,6 +37,14 @@ const addDaysIso = (date: Date, days: number) => {
 
 export default withErrorHandling(async (event) => {
   const { db, user } = await requireUser(event);
+
+  enforceRateLimit(event, {
+    bucket: "outreach-mark-sent-user",
+    maxRequests: 30,
+    windowMs: 60_000,
+    key: user.id,
+  });
+
   const body = await readBody(event);
   const input = markSentSchema.parse(body);
 

@@ -12,9 +12,17 @@ import {
   setSessionCookie,
 } from "~/server/utils/auth";
 import { hashPassword } from "~/server/utils/password";
+import { enforceRateLimit } from "~/server/utils/rateLimit";
 import { fail, ok, withErrorHandling } from "~/server/utils/response";
 
 export default withErrorHandling(async (event) => {
+  enforceRateLimit(event, {
+    bucket: "auth-signup-ip",
+    maxRequests: 5,
+    windowMs: 60_000,
+    blockMs: 10 * 60_000,
+  });
+
   const input = await parseSignupBody(event);
   const db = getDb(event);
 
